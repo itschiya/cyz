@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.card.MaterialCardView
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         setContentView(R.layout.activity_main)
 
         etCurrentPercentage = findViewById(R.id.etCurrentPercentage)
@@ -119,9 +121,20 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val c = currentPercentageStr.toDoubleOrNull()
-        val v = currentVolumeStr.toDoubleOrNull()
-        val d = desiredPercentageStr.toDoubleOrNull()
+        fun String.toEnglishDigits(): String {
+            var result = this
+            val farsiDigits = charArrayOf('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹')
+            val arabicDigits = charArrayOf('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩')
+            for (i in 0..9) {
+                result = result.replace(farsiDigits[i], '0' + i)
+                result = result.replace(arabicDigits[i], '0' + i)
+            }
+            return result
+        }
+
+        val c = currentPercentageStr.toEnglishDigits().toDoubleOrNull()
+        val v = currentVolumeStr.toEnglishDigits().toDoubleOrNull()
+        val d = desiredPercentageStr.toEnglishDigits().toDoubleOrNull()
 
         if (c == null || v == null || d == null) {
             Toast.makeText(this, getString(R.string.error_empty_fields), Toast.LENGTH_SHORT).show()
