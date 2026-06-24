@@ -2,25 +2,41 @@ package com.example.alcoholcalculator
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var etCurrentPercentage: TextInputEditText
     private lateinit var etCurrentVolume: TextInputEditText
-    private lateinit var actvUnit: AutoCompleteTextView
+    private lateinit var tilCurrentVolume: TextInputLayout
     private lateinit var etDesiredPercentage: TextInputEditText
     private lateinit var btnCalculate: Button
+    private lateinit var btnReset: Button
     private lateinit var resultCard: MaterialCardView
-    private lateinit var tvResult: TextView
+    private lateinit var tvWaterToAdd: TextView
+    private lateinit var tvWaterToAddUnit: TextView
+    private lateinit var tvEquivalentTo: TextView
+    private lateinit var tvFinalVolume: TextView
+    private lateinit var tvVerifiedAbv: TextView
+    private lateinit var tvDilutionRatio: TextView
+    private lateinit var toggleGroupUnit: MaterialButtonToggleGroup
+
+    enum class UnitType(val factor: Double, val symbol: String) {
+        ML(1.0, "ml"),
+        L(1000.0, "L"),
+        OZ(29.5735, "oz"),
+        GAL(3785.41, "gal")
+    }
+
+    private var currentUnit = UnitType.ML
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +44,68 @@ class MainActivity : AppCompatActivity() {
 
         etCurrentPercentage = findViewById(R.id.etCurrentPercentage)
         etCurrentVolume = findViewById(R.id.etCurrentVolume)
-        actvUnit = findViewById(R.id.actvUnit)
+        tilCurrentVolume = findViewById(R.id.tilCurrentVolume)
         etDesiredPercentage = findViewById(R.id.etDesiredPercentage)
         btnCalculate = findViewById(R.id.btnCalculate)
+        btnReset = findViewById(R.id.btnReset)
         resultCard = findViewById(R.id.resultCard)
-        tvResult = findViewById(R.id.tvResult)
+        tvWaterToAdd = findViewById(R.id.tvWaterToAdd)
+        tvWaterToAddUnit = findViewById(R.id.tvWaterToAddUnit)
+        tvEquivalentTo = findViewById(R.id.tvEquivalentTo)
+        tvFinalVolume = findViewById(R.id.tvFinalVolume)
+        tvVerifiedAbv = findViewById(R.id.tvVerifiedAbv)
+        tvDilutionRatio = findViewById(R.id.tvDilutionRatio)
+        toggleGroupUnit = findViewById(R.id.toggleGroupUnit)
 
-        val units = resources.getStringArray(R.array.volume_units)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
-        actvUnit.setAdapter(adapter)
-
-        // Set default selection
-        if (units.isNotEmpty()) {
-            actvUnit.setText(units[0], false)
+        toggleGroupUnit.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                currentUnit = when (checkedId) {
+                    R.id.btnMl -> UnitType.ML
+                    R.id.btnL -> UnitType.L
+                    R.id.btnOz -> UnitType.OZ
+                    R.id.btnGal -> UnitType.GAL
+                    else -> UnitType.ML
+                }
+                tilCurrentVolume.suffixText = currentUnit.symbol
+                // Recalculate if result is already visible
+                if (resultCard.visibility == View.VISIBLE) {
+                    calculateWater()
+                }
+            }
         }
 
         btnCalculate.setOnClickListener {
             calculateWater()
+        }
+
+        btnReset.setOnClickListener {
+            reset()
+        }
+    }
+
+    private fun reset() {
+        etCurrentPercentage.text?.clear()
+        etCurrentVolume.text?.clear()
+        etDesiredPercentage.text?.clear()
+        resultCard.visibility = View.GONE
+        btnReset.visibility = View.GONE
+    }
+
+    private fun toMl(value: Double, unit: UnitType): Double {
+        return value * unit.factor
+    }
+
+    private fun fromMl(value: Double, unit: UnitType): Double {
+        return value / unit.factor
+    }
+
+    private fun formatNum(n: Double, unit: UnitType): String {
+        val converted = fromMl(n, unit)
+        val locale = Locale("fa", "IR")
+        return when {
+            converted >= 1000 -> String.format(locale, "%.1f", converted)
+            converted >= 10 -> String.format(locale, "%.2f", converted)
+            else -> String.format(locale, "%.3f", converted)
         }
     }
 
@@ -52,36 +113,67 @@ class MainActivity : AppCompatActivity() {
         val currentPercentageStr = etCurrentPercentage.text.toString()
         val currentVolumeStr = etCurrentVolume.text.toString()
         val desiredPercentageStr = etDesiredPercentage.text.toString()
-        val unitStr = actvUnit.text.toString()
 
-        if (currentPercentageStr.isEmpty() || currentVolumeStr.isEmpty() || desiredPercentageStr.isEmpty() || unitStr.isEmpty()) {
+        if (currentPercentageStr.isEmpty() || currentVolumeStr.isEmpty() || desiredPercentageStr.isEmpty()) {
             Toast.makeText(this, getString(R.string.error_empty_fields), Toast.LENGTH_SHORT).show()
             return
         }
 
-        val currentPercentage = currentPercentageStr.toDoubleOrNull() ?: 0.0
-        val currentVolume = currentVolumeStr.toDoubleOrNull() ?: 0.0
-        val desiredPercentage = desiredPercentageStr.toDoubleOrNull() ?: 0.0
+        val c = currentPercentageStr.toDoubleOrNull()
+        val v = currentVolumeStr.toDoubleOrNull()
+        val d = desiredPercentageStr.toDoubleOrNull()
 
-        if (desiredPercentage >= currentPercentage) {
+        if (c == null || v == null || d == null) {
+            Toast.makeText(this, getString(R.string.error_empty_fields), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (c <= 0 || c > 100 || d <= 0 || d > 100) {
+            Toast.makeText(this, getString(R.string.error_invalid_abv), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (d >= c) {
             Toast.makeText(this, getString(R.string.error_invalid_desired_percentage), Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (desiredPercentage > 0) {
-            // Formula: Required Water = ((currentPercentage * currentVolume) / desiredPercentage) - currentVolume
-            val requiredWater = ((currentPercentage * currentVolume) / desiredPercentage) - currentVolume
+        if (v <= 0) {
+            Toast.makeText(this, getString(R.string.error_invalid_volume), Toast.LENGTH_SHORT).show()
+            return
+        }
 
-            val faLocale = Locale("fa", "IR")
-            val formattedResult = String.format(faLocale, "%.2f", requiredWater)
+        val locale = Locale("fa", "IR")
 
-            // Extract just the short unit string if it exists in parenthesis, e.g. (ml) -> ml
-            val shortUnit = unitStr.substringAfter("(", unitStr).substringBefore(")", unitStr)
+        val volumeMl = toMl(v, currentUnit)
+        val waterMl = (c * volumeMl) / d - volumeMl
 
-            tvResult.text = getString(R.string.result_text, formattedResult, shortUnit)
-            resultCard.visibility = View.VISIBLE
+        tvWaterToAdd.text = formatNum(waterMl, currentUnit)
+        tvWaterToAddUnit.text = currentUnit.symbol
+
+        val equivalentText = if (waterMl < 1000) {
+            String.format(locale, "%.1f ml", waterMl)
         } else {
-            resultCard.visibility = View.GONE
+            String.format(locale, "%.3f L", waterMl / 1000.0)
+        }
+        tvEquivalentTo.text = getString(R.string.also_equivalent_to, equivalentText)
+
+        val totalVolumeMl = volumeMl + waterMl
+        tvFinalVolume.text = String.format(locale, "%s %s", formatNum(totalVolumeMl, currentUnit), currentUnit.symbol)
+
+        val finalAbvCheck = (c * v) / (v + fromMl(waterMl, currentUnit))
+        tvVerifiedAbv.text = String.format(locale, "%.1f %%", finalAbvCheck)
+
+        val dilutionRatio = waterMl / volumeMl
+        tvDilutionRatio.text = String.format(locale, "۱ : %.2f", dilutionRatio)
+
+        resultCard.visibility = View.VISIBLE
+        btnReset.visibility = View.VISIBLE
+
+        // Scroll down
+        resultCard.post {
+            val scrollView = findViewById<androidx.core.widget.NestedScrollView>(R.id.resultCard)
+            scrollView?.smoothScrollTo(0, resultCard.bottom)
         }
     }
 }
