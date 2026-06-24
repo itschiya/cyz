@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvVerifiedAbv: TextView
     private lateinit var tvDilutionRatio: TextView
     private lateinit var toggleGroupUnit: MaterialButtonToggleGroup
+    private lateinit var practicalNote: TextView
+    private lateinit var footerView: View
+    private lateinit var mainScrollView: androidx.core.widget.NestedScrollView
 
     enum class UnitType(val factor: Double, val symbol: String) {
         ML(1.0, "ml"),
@@ -58,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         tvVerifiedAbv = findViewById(R.id.tvVerifiedAbv)
         tvDilutionRatio = findViewById(R.id.tvDilutionRatio)
         toggleGroupUnit = findViewById(R.id.toggleGroupUnit)
+        practicalNote = findViewById(R.id.practicalNote)
+        footerView = findViewById(R.id.footerView)
+        mainScrollView = findViewById(R.id.mainScrollView)
 
         toggleGroupUnit.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
@@ -91,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         etDesiredPercentage.text?.clear()
         resultCard.visibility = View.GONE
         btnReset.visibility = View.GONE
+        practicalNote.visibility = View.GONE
+        footerView.visibility = View.GONE
     }
 
     private fun toMl(value: Double, unit: UnitType): Double {
@@ -182,11 +190,12 @@ class MainActivity : AppCompatActivity() {
 
         resultCard.visibility = View.VISIBLE
         btnReset.visibility = View.VISIBLE
+        practicalNote.visibility = View.VISIBLE
+        footerView.visibility = View.VISIBLE
 
         // Scroll down
-        resultCard.post {
-            val scrollView = findViewById<androidx.core.widget.NestedScrollView>(R.id.resultCard)
-            scrollView?.smoothScrollTo(0, resultCard.bottom)
+        mainScrollView.post {
+            mainScrollView.smoothScrollTo(0, footerView.bottom)
         }
     }
 }
