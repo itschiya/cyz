@@ -32,35 +32,92 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unit_hint"
+                android:textAllCaps="true"
+                android:letterSpacing="0.15"
+                android:textSize="12sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggleGroupUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="@string/current_percentage_hint"
-                app:boxStrokeColor="?attr/colorOutline"
-                app:boxBackgroundColor="?attr/colorSurfaceVariant"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                android:layout_marginBottom="24dp"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedButton="@+id/btnMl">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCurrentPercentage"
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMl"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/unit_ml" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnL"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_l" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnOz"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_oz" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGal"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_gal" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_marginEnd="8dp"
-                    android:hint="@string/current_volume_hint"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
+                    android:hint="@string/current_percentage_label"
+                    app:helperText="@string/current_percentage_hint"
+                    app:suffixText="@string/percent"
+                    app:boxStrokeColor="?attr/colorOutline"
+                    app:boxBackgroundColor="?attr/colorSurfaceVariant"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCurrentPercentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/current_volume_label"
+                    app:helperText="@string/current_volume_hint"
+                    app:suffixText="@string/unit_ml"
+                    android:id="@+id/tilCurrentVolume"
                     app:boxStrokeColor="?attr/colorOutline"
                     app:boxBackgroundColor="?attr/colorSurfaceVariant"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
@@ -71,30 +128,15 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/unit_hint"
-                    app:boxStrokeColor="?attr/colorOutline"
-                    app:boxBackgroundColor="?attr/colorSurfaceVariant"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/actvUnit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        app:simpleItems="@array/volume_units" />
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="@string/desired_percentage_hint"
+                android:hint="@string/desired_percentage_label"
+                app:helperText="@string/desired_percentage_hint"
+                app:suffixText="@string/percent"
                 app:boxStrokeColor="?attr/colorOutline"
                 app:boxBackgroundColor="?attr/colorSurfaceVariant"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
@@ -106,16 +148,34 @@
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnCalculate"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/calculate_button"
-                android:textSize="18sp"
-                app:backgroundTint="?attr/colorPrimary"
-                android:textColor="?attr/colorOnPrimary"
-                app:cornerRadius="2dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <Button
+                    android:id="@+id/btnCalculate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="56dp"
+                    android:text="@string/calculate_button"
+                    android:textSize="18sp"
+                    android:letterSpacing="0.06"
+                    app:backgroundTint="?attr/colorPrimary"
+                    android:textColor="?attr/colorOnPrimary"
+                    app:cornerRadius="2dp" />
+
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:text="@string/reset_button"
+                    android:layout_marginStart="12dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    app:cornerRadius="2dp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/resultCard"
@@ -123,22 +183,163 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.CardView.Elevated"
                 android:visibility="gone"
-                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardBackgroundColor="#0F1A130C"
                 app:strokeColor="?attr/colorOutline"
                 app:strokeWidth="1dp"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="0dp">
 
-                <TextView
-                    android:id="@+id/tvResult"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="24dp"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:textColor="?attr/colorPrimary"
-                    tools:text="آب مورد نیاز: 15.5 ml" />
+                    android:orientation="vertical"
+                    android:padding="32dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/water_to_add_label"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.2"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="bottom"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:id="@+id/tvWaterToAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="56sp"
+                            android:textColor="?attr/colorPrimary"
+                            tools:text="15.5"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:id="@+id/tvWaterToAddUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            tools:text="ml"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginBottom="8dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvEquivalentTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Also equivalent to 0.015 L"
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginBottom="32dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutline"
+                        android:layout_marginBottom="32dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/final_volume_label"
+                                android:textAllCaps="true"
+                                android:letterSpacing="0.12"
+                                android:textSize="12sp"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:layout_marginBottom="8dp" />
+                            <TextView
+                                android:id="@+id/tvFinalVolume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="1015.5 ml"
+                                android:textSize="16sp"
+                                android:textColor="?attr/colorOnSurface" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/verified_abv_label"
+                                android:textAllCaps="true"
+                                android:letterSpacing="0.12"
+                                android:textSize="12sp"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:layout_marginBottom="8dp" />
+                            <TextView
+                                android:id="@+id/tvVerifiedAbv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="40.0 %"
+                                android:textSize="16sp"
+                                android:textColor="?attr/colorOnSurface" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dilution_ratio_label"
+                                android:textAllCaps="true"
+                                android:letterSpacing="0.12"
+                                android:textSize="12sp"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:layout_marginBottom="8dp" />
+                            <TextView
+                                android:id="@+id/tvDilutionRatio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="1 : 0.02"
+                                android:textSize="16sp"
+                                android:textColor="?attr/colorOnSurface" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutline"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vwater = (C1 × V1 / C2) − V1  ·  Pearson square method"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textDirection="ltr"
+                        android:layout_gravity="start" />
+
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

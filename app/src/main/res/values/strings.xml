@@ -1,17 +1,29 @@
 <resources>
-    <string name="app_name">محاسبه‌گر الکل</string>
-    <string name="current_percentage_hint">درصد الکل فعلی (٪)</string>
-    <string name="current_volume_hint">حجم محلول فعلی</string>
-    <string name="desired_percentage_hint">درصد الکل دلخواه (٪)</string>
+    <string name="app_name">Cut to Proof</string>
+    <string name="current_percentage_label">درصد الکل فعلی (٪)</string>
+    <string name="current_percentage_hint">مثلا درصد استحکام بشکه</string>
+    <string name="current_volume_label">حجم فعلی</string>
+    <string name="current_volume_hint">مقداری که دارید</string>
+    <string name="desired_percentage_label">درصد الکل دلخواه (٪)</string>
+    <string name="desired_percentage_hint">درصد هدف — باید کمتر باشد</string>
     <string name="calculate_button">محاسبه</string>
-    <string name="result_text">آب مورد نیاز: %1$s %2$s</string>
-    <string name="error_empty_fields">لطفا تمام فیلدها را پر کنید.</string>
+    <string name="reset_button">بازنشانی</string>
+    <string name="error_empty_fields">تمامی فیلدها الزامی است.</string>
     <string name="error_invalid_desired_percentage">درصد دلخواه باید کمتر از درصد فعلی باشد.</string>
+    <string name="error_invalid_volume">حجم باید بیشتر از صفر باشد.</string>
+    <string name="error_invalid_abv">درصد الکل باید بین ۰ و ۱۰۰ باشد.</string>
 
-    <string name="unit_hint">واحد</string>
-    <string-array name="volume_units">
-        <item>میلی‌لیتر (ml)</item>
-        <item>لیتر (l)</item>
-        <item>سی‌سی (cc)</item>
-    </string-array>
+    <string name="unit_hint">واحد حجم</string>
+    <string name="unit_ml">ml</string>
+    <string name="unit_l">L</string>
+    <string name="unit_oz">oz</string>
+    <string name="unit_gal">gal</string>
+    <string name="percent">٪</string>
+
+    <string name="water_to_add_label">آب مورد نیاز</string>
+    <string name="also_equivalent_to">همچنین معادل %1$s</string>
+    <string name="final_volume_label">حجم نهایی</string>
+    <string name="verified_abv_label">درصد الکل نهایی</string>
+    <string name="dilution_ratio_label">نسبت رقیق‌سازی</string>
+
 </resources>
