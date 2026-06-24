@@ -3,7 +3,7 @@ name: Android CI/CD (Auto Release APK)
 on:
   push:
     tags:
-      - '*' # اجرا با هر تگی
+      - '*' # پروسه با زدن هر تگی شروع می‌شود
 
 permissions:
   contents: write
@@ -23,21 +23,25 @@ jobs:
         distribution: 'zulu'
         cache: gradle
 
-    # بررسی وجود فایل gradlew و دادن دسترسی به آن
-    - name: Make gradlew executable
+    # بررسی هوشمند وجود فایل gradlew در ریشه پروژه
+    - name: Check and Make gradlew executable
       run: |
         if [ -f "gradlew" ]; then
           chmod +x gradlew
+          echo "gradlew found and set to executable."
+        elif [ -f "app/gradlew" ]; then
+          echo "ERROR: gradlew is inside 'app' folder! It must be in the root directory."
+          exit 1
         else
-          echo "Error: gradlew file not found in root directory!"
+          echo "ERROR: gradlew file is missing completely from the repository!"
           exit 1
         fi
 
-    # اجرای عملیات ساخت APK
+    # اجرای عملیات ساخت APK با ساختار امن
     - name: Build Debug APK
       run: ./gradlew assembleDebug --no-daemon
 
-    # آپلود و انتشار فایل در بخش ریلیز
+    # آپلود فایل در بخش ریلیز
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
