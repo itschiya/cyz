@@ -26,4 +26,12 @@
     <string name="verified_abv_label">درصد الکل نهایی</string>
     <string name="dilution_ratio_label">نسبت رقیق‌سازی</string>
 
+    <string name="header_subtitle">ماشین‌حساب رقیق‌سازی</string>
+    <string name="header_title">برش تا <font color="#C8921A"><i>اثبات</i></font></string>
+    <string name="header_description">دقیقاً محاسبه کنید که چقدر آب باید اضافه کنید تا نوشیدنی شما به غلظت مطلوب برسد.</string>
+    <string name="formula_note">Vآب = (C1 × V1 / C2) − V1 · روش مربع پیرسون</string>
+    <string name="practical_note">آب را به تدریج اضافه کنید و اجازه دهید نوشیدنی استراحت کند قبل از اندازه‌گیری. دما روی حجم تاثیر می‌گذارد — برای کارهای دقیق، در ۲۰ درجه سانتی‌گراد کالیبره کنید.</string>
+    <string name="footer_brand">CYZ · برش تا اثبات</string>
+    <string name="footer_warning">مسئولانه بنوشید.</string>
+
 </resources>
