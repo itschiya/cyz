@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,7 +72,8 @@ class MainActivity : AppCompatActivity() {
             // Formula: Required Water = ((currentPercentage * currentVolume) / desiredPercentage) - currentVolume
             val requiredWater = ((currentPercentage * currentVolume) / desiredPercentage) - currentVolume
 
-            val formattedResult = String.format("%.2f", requiredWater)
+            val faLocale = Locale("fa", "IR")
+            val formattedResult = String.format(faLocale, "%.2f", requiredWater)
 
             // Extract just the short unit string if it exists in parenthesis, e.g. (ml) -> ml
             val shortUnit = unitStr.substringAfter("(", unitStr).substringBefore(")", unitStr)

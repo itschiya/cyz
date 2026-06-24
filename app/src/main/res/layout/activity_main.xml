@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,6 +37,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/current_percentage_hint"
+                app:boxStrokeColor="?attr/colorOutline"
+                app:boxBackgroundColor="?attr/colorSurfaceVariant"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -57,6 +61,8 @@
                     android:layout_weight="2"
                     android:layout_marginEnd="8dp"
                     android:hint="@string/current_volume_hint"
+                    app:boxStrokeColor="?attr/colorOutline"
+                    app:boxBackgroundColor="?attr/colorSurfaceVariant"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -71,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/unit_hint"
+                    app:boxStrokeColor="?attr/colorOutline"
+                    app:boxBackgroundColor="?attr/colorSurfaceVariant"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
@@ -87,6 +95,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:hint="@string/desired_percentage_hint"
+                app:boxStrokeColor="?attr/colorOutline"
+                app:boxBackgroundColor="?attr/colorSurfaceVariant"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,6 +112,9 @@
                 android:layout_height="56dp"
                 android:text="@string/calculate_button"
                 android:textSize="18sp"
+                app:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
+                app:cornerRadius="2dp"
                 android:layout_marginBottom="24dp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -110,15 +123,18 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.Material3.CardView.Elevated"
                 android:visibility="gone"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="0dp">
 
                 <TextView
                     android:id="@+id/tvResult"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="24dp"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textColor="?attr/colorPrimary"
