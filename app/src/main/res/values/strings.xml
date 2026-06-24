@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">محاسبه‌گر الکل</string>
     <string name="current_percentage_hint">درصد الکل فعلی (٪)</string>
-    <string name="current_volume_hint">حجم محلول فعلی (میلی‌لیتر/لیتر)</string>
+    <string name="current_volume_hint">حجم محلول فعلی</string>
     <string name="desired_percentage_hint">درصد الکل دلخواه (٪)</string>
     <string name="calculate_button">محاسبه</string>
-    <string name="result_text">آب مورد نیاز: %s</string>
+    <string name="result_text">آب مورد نیاز: %1$s %2$s</string>
     <string name="error_empty_fields">لطفا تمام فیلدها را پر کنید.</string>
     <string name="error_invalid_desired_percentage">درصد دلخواه باید کمتر از درصد فعلی باشد.</string>
+
+    <string name="unit_hint">واحد</string>
+    <string-array name="volume_units">
+        <item>میلی‌لیتر (ml)</item>
+        <item>لیتر (l)</item>
+        <item>سی‌سی (cc)</item>
+    </string-array>
 </resources>
